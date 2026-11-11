@@ -21,6 +21,13 @@ export function replyDue(t: Ticket, now = Date.now()): Due {
   return { text: `Reply due in ${left < 1 ? `${Math.max(1, Math.round(left * 60))}m` : `${Math.round(left)}h`}`, late: false };
 }
 
+// Agent tickets store "Problem. Tried: steps" in one field; split them for display.
+export function splitSummary(summary: string | null): { title: string; tried: string | null } {
+  const s = summary ?? "";
+  const i = s.indexOf(" Tried: ");
+  return i < 0 ? { title: s, tried: null } : { title: s.slice(0, i), tried: s.slice(i + 8) };
+}
+
 export function workEmail(fullName: string): string {
   const parts = fullName.toLowerCase().split(/\s+/).filter(Boolean);
   return `${parts[0]}.${parts[parts.length - 1]}@northwind.example`;

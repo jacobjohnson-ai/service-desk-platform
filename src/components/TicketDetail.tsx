@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState, type FormEvent } from "react";
 import { api } from "../lib/api";
 import { useDesk } from "../lib/desk";
-import { replyDue, TARGET_HOURS, when } from "../lib/format";
+import { replyDue, splitSummary, TARGET_HOURS, when } from "../lib/format";
 import type { AuditEntry, Note, Status } from "../lib/types";
 import StatusDot from "./StatusDot";
 
@@ -33,6 +33,7 @@ export default function TicketDetail({ id }: { id: number }) {
   if (!t) return null;
   const assignee = t.assigned_to ? people[t.assigned_to] : null;
   const due = replyDue(t);
+  const { title, tried } = splitSummary(t.summary);
 
   async function update(body: { status?: Status; assigned_to?: string }) {
     setBusy(true);
@@ -64,7 +65,7 @@ export default function TicketDetail({ id }: { id: number }) {
 
   return (
     <div className="box">
-      <div className="dh"><h2>#{t.id} · {t.summary || "Ticket"}</h2><StatusDot status={t.status} /></div>
+      <div className="dh"><h2>#{t.id} · {title || "Ticket"}</h2><StatusDot status={t.status} /></div>
       <div className="meta">
         <span>Requester</span><div>{t.name}{t.department && ` · ${t.department}`}</div>
         <span>Urgency</span><div className={t.urgency === "high" ? "urg-high" : ""}>{t.urgency} · priority {t.priority_score}/10</div>
@@ -76,6 +77,7 @@ export default function TicketDetail({ id }: { id: number }) {
             : t.status === "resolved" ? "None"
             : due && <><span className={`due${due.late ? " late" : ""}`}>{due.text}</span> <span className="due">(target {TARGET_HOURS[t.urgency]}h)</span></>}
         </div>
+        {tried && <><span>Already tried</span><div>{tried}</div></>}
         {t.message && t.message !== t.summary && <><span>Details</span><div className="pre">{t.message}</div></>}
       </div>
 

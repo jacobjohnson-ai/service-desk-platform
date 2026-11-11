@@ -1,4 +1,4 @@
-import { replyDue, when } from "../lib/format";
+import { replyDue, splitSummary, when } from "../lib/format";
 import { useDesk } from "../lib/desk";
 import type { Ticket } from "../lib/types";
 import StatusDot from "./StatusDot";
@@ -11,7 +11,7 @@ export default function TicketRow({ t, selected, onSelect }: { t: Ticket; select
     <div className={`item${selected ? " sel" : ""}`} onClick={onSelect}>
       <div className="id">#{t.id}</div>
       <div>
-        <div className="t">{t.summary || t.message}</div>
+        <div className="t">{splitSummary(t.summary).title || t.message}</div>
         <div className="m">
           {isStaff && <>{t.name}{t.department && ` · ${t.department}`} · </>}
           <span className={t.urgency === "high" ? "urg-high" : ""}>{t.urgency}</span>
