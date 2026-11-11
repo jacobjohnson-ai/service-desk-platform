@@ -11,14 +11,14 @@ export function when(d: string | null | undefined): string {
   return `${t.toLocaleDateString("en-US", { month: "short", day: "numeric" })}, ${t.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" })}`;
 }
 
-export type Due = { text: string; late: boolean } | null;
+export type Due = { text: string; late: boolean; soon?: boolean } | null;
 
 export function replyDue(t: Ticket, now = Date.now()): Due {
   if (t.status === "resolved") return null;
   if (t.first_response_at) return { text: "Replied", late: false };
   const left = TARGET_HOURS[t.urgency] - (now - new Date(t.created_at).getTime()) / 36e5;
   if (left < 0) return { text: "Reply overdue", late: true };
-  return { text: `Reply due in ${left < 1 ? `${Math.max(1, Math.round(left * 60))}m` : `${Math.round(left)}h`}`, late: false };
+  return { soon: left < TARGET_HOURS[t.urgency] / 4, text: `Reply due in ${left < 1 ? `${Math.max(1, Math.round(left * 60))}m` : `${Math.round(left)}h`}`, late: false };
 }
 
 // Agent tickets store "Problem. Tried: steps" in one field; split them for display.

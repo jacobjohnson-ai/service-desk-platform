@@ -68,14 +68,14 @@ export default function TicketDetail({ id }: { id: number }) {
       <div className="dh"><h2>#{t.id} · {title || "Ticket"}</h2><StatusDot status={t.status} /></div>
       <div className="meta">
         <span>Requester</span><div>{t.name}{t.department && ` · ${t.department}`}</div>
-        <span>Urgency</span><div className={t.urgency === "high" ? "urg-high" : ""}>{t.urgency} · priority {t.priority_score}/10</div>
+        <span>Urgency</span><div className={`urg-${t.urgency}`}>{t.urgency} · priority {t.priority_score}/10</div>
         <span>Assigned to</span><div>{assignee ? assignee.full_name : "Nobody yet"}</div>
         <span>Opened</span><div>{when(t.created_at)}</div>
         <span>First reply</span>
         <div>
           {t.first_response_at ? when(t.first_response_at)
             : t.status === "resolved" ? "None"
-            : due && <><span className={`due${due.late ? " late" : ""}`}>{due.text}</span> <span className="due">(target {TARGET_HOURS[t.urgency]}h)</span></>}
+            : due && <><span className={`due${due.late ? " late" : due.soon ? " soon" : ""}`}>{due.text}</span> <span className="due">(target {TARGET_HOURS[t.urgency]}h)</span></>}
         </div>
         {tried && <><span>Already tried</span><div>{tried}</div></>}
         {t.message && t.message !== t.summary && <><span>Details</span><div className="pre">{t.message}</div></>}

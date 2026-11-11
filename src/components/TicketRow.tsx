@@ -14,10 +14,10 @@ export default function TicketRow({ t, selected, onSelect }: { t: Ticket; select
         <div className="t">{splitSummary(t.summary).title || t.message}</div>
         <div className="m">
           {isStaff && <>{t.name}{t.department && ` · ${t.department}`} · </>}
-          <span className={t.urgency === "high" ? "urg-high" : ""}>{t.urgency}</span>
+          <span className={`urg-${t.urgency}`}>{t.urgency}</span>
           {" · "}{assignee ? `Assigned to ${assignee.full_name}` : "Unassigned"}
           {" · "}{when(t.created_at)}
-          {due && <> · <span className={`due${due.late ? " late" : ""}`}>{due.text}</span></>}
+          {due && <> · <span className={`due${due.late ? " late" : due.soon ? " soon" : ""}`}>{due.text}</span></>}
         </div>
       </div>
       <StatusDot status={t.status} />
