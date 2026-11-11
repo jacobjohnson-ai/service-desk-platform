@@ -1,4 +1,4 @@
--- Northwind Service Desk: users, roles, ticket workflow, notes, audit log, and row-level security.
+-- Service Desk Platform: users, roles, ticket workflow, notes, audit log, and row-level security.
 -- Run once in the Supabase SQL Editor.
 
 -- 1. Profiles: one row per login, with a role

@@ -1,4 +1,4 @@
--- Northwind Service Desk, part 2: editable knowledge base and response-time tracking.
+-- Service Desk Platform, part 2: editable knowledge base and response-time tracking.
 -- Run once in the Supabase SQL Editor, after 01 and 02.
 
 -- 1. Knowledge base articles (the helpdesk agent reads these; admins edit them)

@@ -1,8 +1,8 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 
-// Served from https://jacobjohnson-ai.github.io/northwind-service-desk/
+// Served from https://jacobjohnson-ai.github.io/service-desk-platform/
 export default defineConfig({
-  base: "/northwind-service-desk/",
+  base: "/service-desk-platform/",
   plugins: [react()],
 });

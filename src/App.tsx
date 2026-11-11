@@ -52,7 +52,7 @@ export default function App() {
       </nav>
       <header>
         <div>
-          <h1>Northwind Service Desk <span className="demo">demo</span></h1>
+          <h1>Service Desk Platform <span className="demo">demo</span></h1>
           <p>
             A ticketing system with logins and three roles. Employees chat with the helpdesk agent or submit tickets,
             technicians work the queue against response targets, and admins edit the knowledge base the agent uses.
