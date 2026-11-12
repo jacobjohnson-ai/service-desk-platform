@@ -127,3 +127,13 @@ button.link{background:none;border:0;padding:0;color:#60a5fa;font-weight:500;fon
 .dash-grid>*{min-width:0}.chart{min-width:0;overflow:hidden}
 .legend{flex-wrap:wrap;row-gap:4px}.legend span{white-space:nowrap}
 @media(max-width:600px){.legend .tip{flex-basis:100%;margin-left:0}}
+
+.login .intro{color:var(--ink);font-size:15.5px;margin-bottom:16px;max-width:620px}
+.role{display:flex;flex-direction:column}
+.role small{font-size:11.5px;letter-spacing:1.2px;text-transform:uppercase;color:#4ade80;font-weight:600;margin-bottom:6px}
+.role em{margin-top:auto!important;padding-top:14px}
+.role.first{border-color:#555}
+.role.first em{align-self:flex-start;background:#fff;color:#0a0a0a;border-radius:8px;padding:8px 12px;margin-top:14px!important}
+.role:not(.first){opacity:.85}.role:not(.first):hover{opacity:1}
+.linkish{background:none;border:0;color:var(--dim);font-weight:400;font-size:13.5px;padding:0;justify-self:center;text-decoration:underline;text-underline-offset:3px}
+.linkish:hover{color:var(--mute)}

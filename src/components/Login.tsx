@@ -14,6 +14,7 @@ export default function Login({ onSignedIn, initialError }: { onSignedIn: (s: Se
   const [error, setError] = useState(initialError);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [manual, setManual] = useState(false);
 
   async function go(e: string, pw: string) {
     setBusy(e);
@@ -30,25 +31,26 @@ export default function Login({ onSignedIn, initialError }: { onSignedIn: (s: Se
   return (
     <div className="login">
       <div>
-        <div className="lbl" style={{ marginBottom: 12 }}>Try it as</div>
+        <p className="intro">Pick a role to log in. Start as the employee and report a problem, then log in as the technician to fix it.</p>
         <div className="roles">
-          {DEMOS.map((d) => (
-            <button key={d.email} className={`role${busy === d.email ? " busy" : ""}`} disabled={busy !== null}
+          {DEMOS.map((d, i) => (
+            <button key={d.email} className={`role${i === 0 ? " first" : ""}${busy === d.email ? " busy" : ""}`} disabled={busy !== null}
               onClick={() => go(d.email, DEMO_PASSWORD)}>
+              {i === 0 && <small>Start here</small>}
               <b>{d.name}</b>
               <span>{d.who}</span>
               <span style={{ marginTop: 8 }}>{d.what}</span>
-              <em>{busy === d.email ? "Logging in…" : "Log in →"}</em>
+              <em>{busy === d.email ? "Logging in…" : `Log in as ${d.name.toLowerCase()} →`}</em>
             </button>
           ))}
         </div>
       </div>
-      <div className="or">or sign in</div>
-      <form className="manual" onSubmit={submit}>
+      {!manual && <button type="button" className="linkish" onClick={() => setManual(true)}>Sign in with email instead</button>}
+      {manual && <form className="manual" onSubmit={submit}>
         <div><label>Email</label><input type="email" autoComplete="username" value={email} onChange={(e) => setEmail(e.target.value)} /></div>
         <div><label>Password</label><input type="password" autoComplete="current-password" value={password} onChange={(e) => setPassword(e.target.value)} /></div>
         <button disabled={busy !== null}>Sign in</button>
-      </form>
+      </form>}
       {error && <div className="err">{error}</div>}
       <p className="note-foot">Demo accounts for a fictional company. Sign-ups are turned off, and each role can only do what the database allows.</p>
     </div>
