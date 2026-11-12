@@ -6,6 +6,12 @@ import Login from "./components/Login";
 import EmployeeView from "./components/EmployeeView";
 import StaffView from "./components/StaffView";
 
+const HINTS = {
+  employee: "Ask the agent about something it can't fix, like a broken laptop screen. It opens a ticket under your account. Then log out and sign in as Technician to find it in the queue.",
+  technician: "Assign a ticket to yourself, send a reply, and add an internal note. Then sign in as Employee: the reply shows, the internal note doesn't.",
+  admin: "Open the Knowledge base tab and change an article's steps. A minute later, sign in as Employee and ask the agent about that problem.",
+} as const;
+
 const TICKET_FIELDS =
   "id,created_at,summary,message,category,urgency,priority_score,status,assigned_to,requester_id,name,department,first_response_at";
 
@@ -35,6 +41,13 @@ export default function App() {
       .catch((e: Error) => { if (!cancelled) { logout(); setError(e.message); } });
     return () => { cancelled = true; };
   }, [session]);
+
+  // Keep the queue current: re-read tickets every 20 seconds while the tab is visible
+  useEffect(() => {
+    if (!desk) return;
+    const id = setInterval(() => { if (!document.hidden) reloadTickets().catch(() => {}); }, 20_000);
+    return () => clearInterval(id);
+  }, [desk !== null, reloadTickets]);
 
   function logout() {
     signOut();
@@ -67,6 +80,7 @@ export default function App() {
         )}
       </header>
       <main className="main">
+        {desk && <p className="hint"><b>Try this:</b> {HINTS[desk.me.role]}</p>}
         {!session && <Login onSignedIn={(s) => { setError(""); setSession(s); }} initialError={error} />}
         {session && !desk && <div className="empty">Loading…</div>}
         {desk && (

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { showDetailOnPhone } from "../lib/format";
 import { useDesk } from "../lib/desk";
 import TicketRow from "./TicketRow";
 import TicketDetail from "./TicketDetail";
@@ -25,12 +26,12 @@ export default function EmployeeView() {
         <div className="list">
           {mine.length ? mine.map((t) => (
             <TicketRow key={t.id} t={t} selected={pane.kind === "ticket" && pane.id === t.id}
-              onSelect={() => setPane({ kind: "ticket", id: t.id })} />
+              onSelect={() => { setPane({ kind: "ticket", id: t.id }); showDetailOnPhone(); }} />
           )) : <div className="empty">No tickets yet.</div>}
         </div>
       </div>
-      <div className="col">
-        {pane.kind === "agent" && <AgentChat />}
+      <div className="col" id="detail">
+        {pane.kind === "agent" && <AgentChat onOpenTicket={(id) => setPane({ kind: "ticket", id })} />}
         {pane.kind === "form" && <NewTicketForm onCreated={(id) => setPane({ kind: "ticket", id })} />}
         {pane.kind === "ticket" && <TicketDetail id={pane.id} />}
       </div>

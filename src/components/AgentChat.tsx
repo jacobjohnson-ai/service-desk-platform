@@ -4,7 +4,7 @@ import { useDesk } from "../lib/desk";
 
 // The agent receives this user's login token, checks it with Supabase,
 // and opens tickets under their account (no name or employee ID needed).
-type Line = { role: "user" | "model" | "step"; text: string };
+type Line = { role: "user" | "model" | "step"; text: string; ticketId?: number };
 interface AgentReply { reply: string; tools?: { name: string }[]; ticket?: { id: number } | null; error?: string }
 
 const STEP: Record<string, string> = {
@@ -22,7 +22,7 @@ const SUGGESTIONS = [
 // Kept outside the component so the chat survives switching panes
 let saved: { user: string; lines: Line[] } = { user: "", lines: [] };
 
-export default function AgentChat() {
+export default function AgentChat({ onOpenTicket }: { onOpenTicket: (id: number) => void }) {
   const { me, reloadTickets } = useDesk();
   const [lines, setLines] = useState<Line[]>(saved.user === me.id ? saved.lines : []);
   const [input, setInput] = useState("");
@@ -49,7 +49,7 @@ export default function AgentChat() {
       const j = (await res.json()) as AgentReply;
       if (!res.ok) throw new Error(j.error || "The agent is unavailable right now.");
       const steps: Line[] = (j.tools ?? []).filter((t) => STEP[t.name]).map((t) => ({ role: "step", text: STEP[t.name] }));
-      if (j.ticket) steps.push({ role: "step", text: `Opened ticket #${j.ticket.id} under your account` });
+      if (j.ticket) steps.push({ role: "step", text: `Opened ticket #${j.ticket.id} under your account`, ticketId: j.ticket.id });
       setLines((l) => [...l, ...steps, { role: "model", text: j.reply }]);
       if (j.ticket) reloadTickets();
     } catch (e) {
@@ -76,7 +76,7 @@ export default function AgentChat() {
           </>
         )}
         {lines.map((l, i) => l.role === "step"
-          ? <div key={i} className="msg step">{l.text}</div>
+          ? <div key={i} className="msg step">{l.text}{l.ticketId && <> · <button type="button" className="link" onClick={() => onOpenTicket(l.ticketId!)}>View ticket</button></>}</div>
           : <div key={i} className={`msg${l.role === "user" ? " u" : ""}`}><div className="who2">{l.role === "user" ? "You" : "Agent"}</div>{l.text}</div>)}
         {busy && <div className="msg step">Agent is working…</div>}
       </div>

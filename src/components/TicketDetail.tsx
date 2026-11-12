@@ -28,6 +28,9 @@ export default function TicketDetail({ id }: { id: number }) {
     setNotes(null);
     setError("");
     load().catch((e: Error) => setError(e.message));
+    // New replies show up without clicking around
+    const timer = setInterval(() => { if (!document.hidden) load().catch(() => {}); }, 15_000);
+    return () => clearInterval(timer);
   }, [load]);
 
   if (!t) return null;

@@ -28,6 +28,11 @@ export function splitSummary(summary: string | null): { title: string; tried: st
   return i < 0 ? { title: s, tried: null } : { title: s.slice(0, i), tried: s.slice(i + 8) };
 }
 
+export function showDetailOnPhone() {
+  if (window.innerWidth > 900) return;
+  requestAnimationFrame(() => document.getElementById("detail")?.scrollIntoView({ behavior: "smooth", block: "start" }));
+}
+
 export function workEmail(fullName: string): string {
   const parts = fullName.toLowerCase().split(/\s+/).filter(Boolean);
   return `${parts[0]}.${parts[parts.length - 1]}@northwind.example`;
