@@ -13,14 +13,14 @@ const HINTS = {
 } as const;
 
 const TICKET_FIELDS =
-  "id,created_at,summary,message,category,urgency,priority_score,status,assigned_to,requester_id,name,department,first_response_at";
+  "id,created_at,summary,message,category,urgency,priority_score,status,assigned_to,requester_id,name,department,first_response_at,resolved_at";
 
 export default function App() {
   const [session, setSession] = useState<Session | null>(() => restoreSession());
   const [desk, setDesk] = useState<Omit<Desk, "reloadTickets"> | null>(null);
   const [error, setError] = useState("");
 
-  const loadTickets = () => api<Ticket[]>(`/rest/v1/tickets?select=${TICKET_FIELDS}&order=id.desc&limit=200`);
+  const loadTickets = () => api<Ticket[]>(`/rest/v1/tickets?select=${TICKET_FIELDS}&order=id.desc&limit=1000`);
 
   const reloadTickets = useCallback(async () => {
     const tickets = await loadTickets();

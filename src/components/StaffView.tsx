@@ -6,6 +6,7 @@ import TicketRow from "./TicketRow";
 import TicketDetail from "./TicketDetail";
 import StatsRow from "./StatsRow";
 import KnowledgeBase from "./KnowledgeBase";
+import Dashboard from "./Dashboard";
 
 type Filter = "active" | "unassigned" | "mine" | "high" | "resolved";
 const FILTERS: [Filter, string][] = [
@@ -25,7 +26,7 @@ function matches(t: Ticket, f: Filter, me: string): boolean {
 
 export default function StaffView() {
   const { me, tickets } = useDesk();
-  const [tab, setTab] = useState<"queue" | "kb">("queue");
+  const [tab, setTab] = useState<"queue" | "dashboard" | "kb">("queue");
   const [filter, setFilter] = useState<Filter>("active");
   const [selected, setSelected] = useState<number | null>(null);
   const [search, setSearch] = useState("");
@@ -33,10 +34,12 @@ export default function StaffView() {
   const tabs = (
     <div className="tabs">
       <button className={tab === "queue" ? "on" : ""} onClick={() => setTab("queue")}>Queue</button>
+      <button className={tab === "dashboard" ? "on" : ""} onClick={() => setTab("dashboard")}>Dashboard</button>
       <button className={tab === "kb" ? "on" : ""} onClick={() => setTab("kb")}>Knowledge base</button>
     </div>
   );
   if (tab === "kb") return <KnowledgeBase tabs={tabs} />;
+  if (tab === "dashboard") return <Dashboard tabs={tabs} />;
 
   const q = search.trim().toLowerCase().replace(/^#/, "");
   const list = tickets.filter((t) => matches(t, filter, me.id) && (!q ||

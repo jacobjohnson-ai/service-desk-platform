@@ -23,6 +23,7 @@ export interface Ticket {
   name: string | null;
   department: string | null;
   first_response_at: string | null;
+  resolved_at: string | null;
 }
 
 export interface Note {
