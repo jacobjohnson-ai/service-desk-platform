@@ -4,7 +4,7 @@
 html,body{height:100%}
 body{background:var(--bg);color:var(--ink);font-family:Inter,system-ui,sans-serif;line-height:1.5;font-size:15px}
 @media(min-width:2200px){body{zoom:1.15}}
-::-webkit-scrollbar{width:10px}::-webkit-scrollbar-track{background:transparent;margin:12px 0}::-webkit-scrollbar-thumb{background:#3a3a3a;border-radius:8px;border:3px solid var(--bg)}::-webkit-scrollbar-button{display:none;width:0;height:0}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:transparent;margin:12px 0}::-webkit-scrollbar-thumb{background:#fff;border-radius:4px}::-webkit-scrollbar-button{display:none;width:0;height:0}
 .wrap{width:92%;max-width:1300px;margin:0 auto;padding:0 0 28px;display:flex;flex-direction:column;height:100vh}
 nav.site{display:flex;justify-content:space-between;padding:18px 0 4px}nav.site a{color:var(--mute);text-decoration:none}nav.site a:hover{color:var(--ink)}
 header{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;padding:18px 0 14px;border-bottom:1px solid var(--line)}
