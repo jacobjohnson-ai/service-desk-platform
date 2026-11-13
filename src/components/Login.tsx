@@ -4,7 +4,7 @@ import type { Session } from "../lib/types";
 
 const DEMO_PASSWORD = "NorthwindDemo-2026"; // public demo accounts for a fictional company
 const DEMOS = [
-  { email: "employee@northwind.example", name: "Employee", who: "Riley Carter · Sales", what: "Chat with the helpdesk agent, submit tickets, and see only your own." },
+  { email: "employee@northwind.example", name: "Employee", who: "Meagan Moore · Sales", what: "Chat with the helpdesk agent, submit tickets, and see only your own." },
   { email: "tech@northwind.example", name: "Technician", who: "Morgan Diaz · IT", what: "Work the queue against response targets: assign, reply, add internal notes, resolve." },
   { email: "admin@northwind.example", name: "Admin", who: "Avery Brooks · IT", what: "Everything a technician can do, plus team stats and editing the knowledge base." },
 ];
